@@ -1,318 +1,365 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>หน้าโปร / เซลเพจ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profit Control Dashboard (TH) – Company 15% from Total Wager</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Tahoma,sans-serif;margin:0;background:#0b1220;color:#e8eefc}
+    header{padding:18px 18px 10px;border-bottom:1px solid #22304e;background:#0f1a33;position:sticky;top:0;z-index:5}
+    h1{margin:0;font-size:18px}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
+    .card{background:#0f1a33;border:1px solid #22304e;border-radius:14px;padding:14px}
+    .card h2{margin:0 0 10px;font-size:15px}
+    .row{display:grid;grid-template-columns:1fr 180px;gap:10px;align-items:center;margin:8px 0}
+    .row small{color:#a9b8dd}
+    input,select{width:100%;padding:10px;border-radius:10px;border:1px solid #2a3a5f;background:#0b1220;color:#e8eefc}
+    .sec{margin-top:10px;padding-top:10px;border-top:1px dashed #22304e}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #2a3a5f;background:#0b1220}
+    .ok{color:#3ddc97}
+    .bad{color:#ff6b6b}
+    .warn{color:#ffd166}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{padding:10px 12px;border-radius:10px;border:1px solid #2a3a5f;background:#122145;color:#e8eefc;cursor:pointer}
+    button:hover{filter:brightness(1.08)}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{border-bottom:1px solid #22304e;padding:10px;text-align:left}
+    th{color:#a9b8dd;font-weight:600}
+    .right{text-align:right}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  </style>
 </head>
+<body>
+<header>
+  <h1>Profit Control Dashboard (TH) — สล็อต/กีฬา/หวย</h1>
+  <div style="margin-top:8px;color:#a9b8dd;font-size:13px">
+    อัปเดต: <b>ค่าคอมพานี 15%</b> คิดจาก <b>ยอดเล่นลูกค้า (Total Wager)</b>
+  </div>
+</header>
 
-<body style="
-  margin:0;
-  font-family:system-ui,sans-serif;
-  background:#020617 url('2.jpg') no-repeat center top;
-  background-size:cover;
-">
+<div class="wrap">
+  <div class="grid">
+    <!-- INPUT -->
+    <div class="card">
+      <h2>INPUT (กรอกค่า)</h2>
 
-  <!-- กล่องแจ็คพอต -->
-  <div id="jackpot-box"></div>
-
-  <script>
-    function rand(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    var lastJackpot = null;
-
-    function getNewJackpot() {
-      var num = rand(10000, 300000);
-      while (num === lastJackpot) {
-        num = rand(10000, 300000);
-      }
-      lastJackpot = num;
-      return num;
-    }
-
-    function formatNumber(num) {
-      return num.toLocaleString("th-TH");
-    }
-
-    function formatDate() {
-      var d = new Date();
-      var thMonths = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-
-      var day = d.getDate();
-      var month = thMonths[d.getMonth()];
-      var year = d.getFullYear() + 543;
-      var time =
-        d.getHours().toString().padStart(2, "0") + ":" +
-        d.getMinutes().toString().padStart(2, "0") + ":" +
-        d.getSeconds().toString().padStart(2, "0");
-
-      return day + " " + month + " " + year + " " + time;
-    }
-
-    var jackpotBox = document.getElementById("jackpot-box");
-
-    function renderJackpot() {
-      var jackpotAmount = getNewJackpot();
-
-      var html =
-        '<div style="max-width:700px;margin:15px auto;padding:25px 20px;background:#0f3d31;color:#fff;border-radius:20px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.25);">' +
-          '<div style="font-size:20px;font-weight:700;color:#facc15;">🏆 แจ็คพอตล่าสุด 🏆</div>' +
-          '<div style="font-size:44px;font-weight:900;margin:10px 0;color:#ffffff;text-shadow:0 0 10px rgba(255,255,255,0.7);">' +
-            formatNumber(jackpotAmount) + ' บาท</div>' +
-          '<div style="font-size:14px;color:#cbd5e1;">อัปเดตล่าสุดเมื่อ ' + formatDate() + '</div>' +
-        '</div>';
-
-      jackpotBox.innerHTML = html;
-    }
-
-    renderJackpot();
-    setInterval(renderJackpot, 5000);
-  </script>
-
-  <!-- SLIDER โลโก้ค่ายเกม -->
-  <div id="provider-slider" style="
-    max-width:900px;
-    margin:15px auto;
-    padding:10px;
-    background:#0d3b31;
-    border-radius:22px;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,0.35);
-    position:relative;
-    white-space:nowrap;
-  ">
-    <div id="provider-track" style="
-      display:inline-flex;
-      align-items:center;
-      white-space:nowrap;
-    ">
-
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img2.pic.in.th/pic/dream6e317e1af3ae9e20.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <div class="row">
+        <div><b>ชื่อโปร/แคมเปญ</b><br><small>เช่น ฝากแรกของวัน / คืนยอดเสีย</small></div>
+        <input id="campaign" placeholder="ชื่อโปร">
+      </div>
+      <div class="row">
+        <div><b>วันที่</b><br><small>YYYY-MM-DD</small></div>
+        <input id="date" placeholder="2025-12-24">
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img2.pic.in.th/pic/nolimit206913862165258a.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <div class="row">
+        <div><b>% ค่าคอมเอเย่นต์</b><br><small>เช่น 10% ใส่ 0.10 (ถ้าไม่มีใส่ 0)</small></div>
+        <input id="agentRate" type="number" step="0.01" value="0.00">
+      </div>
+      <div class="row">
+        <div><b>% ค่าคอมพานี</b><br><small>คิดจาก “ยอดเล่นรวม” (Total Wager) เช่น 15% ใส่ 0.15</small></div>
+        <input id="companyRate" type="number" step="0.01" value="0.15">
+      </div>
+      <div class="row">
+        <div><b>ต้นทุนอื่นๆ (บาท)</b><br><small>ค่าโฆษณา/ของแถม ฯลฯ</small></div>
+        <input id="otherCost" type="number" step="1" value="0">
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img5.pic.in.th/file/secure-sv1/jokerd99eb847c4171248.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <!-- SLOT -->
+      <div class="sec">
+        <h2 style="margin:0 0 8px">สล็อต</h2>
+        <div class="row"><div>โหมด</div>
+          <select id="slotMode"><option>RTP</option><option>Margin</option></select>
+        </div>
+        <div class="row"><div>ฝาก (D)</div><input id="slotD" type="number" step="1" value="0"></div>
+        <div class="row"><div>โบนัส (B)</div><input id="slotB" type="number" step="1" value="0"></div>
+        <div class="row"><div>เทิร์น (T)</div><input id="slotT" type="number" step="0.1" value="5"></div>
+        <div class="row"><div>RTP (0–1)</div><input id="slotRTP" type="number" step="0.01" value="0.96"></div>
+        <div class="row"><div>Margin (0–1)</div><input id="slotM" type="number" step="0.01" value="0.08"></div>
+        <div class="row"><div>ถอน (W)</div><input id="slotW" type="number" step="1" value="0"></div>
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img5.pic.in.th/file/secure-sv1/jili752a3c379bf8df1f.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <!-- SPORT -->
+      <div class="sec">
+        <h2 style="margin:0 0 8px">กีฬา</h2>
+        <div class="row"><div>โหมด</div>
+          <select id="sportMode"><option>Margin</option><option>RTP</option></select>
+        </div>
+        <div class="row"><div>ฝาก (D)</div><input id="sportD" type="number" step="1" value="0"></div>
+        <div class="row"><div>โบนัส (B)</div><input id="sportB" type="number" step="1" value="0"></div>
+        <div class="row"><div>เทิร์น (T)</div><input id="sportT" type="number" step="0.1" value="1"></div>
+        <div class="row"><div>RTP (0–1)</div><input id="sportRTP" type="number" step="0.01" value="0.00"></div>
+        <div class="row"><div>Margin (0–1)</div><input id="sportM" type="number" step="0.01" value="0.10"></div>
+        <div class="row"><div>ถอน (W)</div><input id="sportW" type="number" step="1" value="0"></div>
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img2.pic.in.th/pic/sexyfceecb5e13b29644.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <!-- LOTTO -->
+      <div class="sec">
+        <h2 style="margin:0 0 8px">หวย</h2>
+        <div class="row"><div>โหมด</div>
+          <select id="lottoMode"><option>Margin</option><option>RTP</option></select>
+        </div>
+        <div class="row"><div>ฝาก (D)</div><input id="lottoD" type="number" step="1" value="0"></div>
+        <div class="row"><div>โบนัส (B)</div><input id="lottoB" type="number" step="1" value="0"></div>
+        <div class="row"><div>เทิร์น (T)</div><input id="lottoT" type="number" step="0.1" value="1"></div>
+        <div class="row"><div>RTP (0–1)</div><input id="lottoRTP" type="number" step="0.01" value="0.00"></div>
+        <div class="row"><div>Margin (0–1)</div><input id="lottoM" type="number" step="0.01" value="0.05"></div>
+        <div class="row"><div>ถอน (W)</div><input id="lottoW" type="number" step="1" value="0"></div>
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img2.pic.in.th/pic/sad80f0f406967d5c7.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <div class="btns">
+        <button id="saveBtn">บันทึกลง LOG</button>
+        <button id="exportBtn">Export CSV</button>
+        <button id="clearBtn">ล้าง LOG</button>
+      </div>
+      <div style="margin-top:8px;color:#a9b8dd;font-size:12px">
+        * LOG เก็บในเครื่อง (LocalStorage) ไม่ส่งออกไปไหน
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="card">
+      <h2>RESULT (สรุป)</h2>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        <span class="pill">ฝากรวม: <b id="sumD">0</b></span>
+        <span class="pill">โบนัสรวม: <b id="sumB">0</b></span>
+        <span class="pill">ถอนรวม: <b id="sumW">0</b></span>
+        <span class="pill">Expected Loss รวม: <b id="sumLoss">0</b></span>
+        <span class="pill">ยอดเล่นรวม: <b id="sumWager">0</b></span>
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img5.pic.in.th/file/secure-sv1/pg4aa31cb2a8fe009f.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <div class="card" style="background:#0b1220">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="color:#a9b8dd">กำไรสุทธิ</div>
+            <div style="font-size:26px;font-weight:800" id="netProfit">0</div>
+          </div>
+          <div style="font-size:18px;font-weight:800" id="status">-</div>
+        </div>
+        <div style="margin-top:10px;color:#a9b8dd;font-size:12px" class="mono" id="profitFormula"></div>
       </div>
 
-      <div style="min-width:180px;margin:0 8px;padding:10px 18px;border-radius:18px;
-        background:rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;">
-        <img src="https://img5.pic.in.th/file/secure-sv1/wm0c0e1b5ec6db6f54.png"
-             style="max-width:160px;max-height:60px;object-fit:contain;">
+      <div class="sec">
+        <h2 style="margin:0 0 8px">ALERT</h2>
+        <div class="row"><div>โบนัสรวม > 30% ของฝากรวม</div><div id="a1" class="pill">-</div></div>
+        <div class="row"><div>Expected Loss รวม < โบนัสรวม</div><div id="a2" class="pill">-</div></div>
+        <div class="row"><div>ถอนรวม > ฝากรวม + Expected Loss</div><div id="a3" class="pill">-</div></div>
       </div>
 
+      <div class="sec">
+        <h2 style="margin:0 0 8px">ค่าหักสำคัญ</h2>
+        <div class="row"><div>ค่าคอมเอเย่นต์ (ฝากรวม × %)</div><div class="pill"><b id="agentFee">0</b></div></div>
+        <div class="row"><div>ค่าคอมพานี (ยอดเล่นรวม × 15%)</div><div class="pill"><b id="companyFee">0</b></div></div>
+        <div class="row"><div>ต้นทุนอื่นๆ</div><div class="pill"><b id="otherCostShow">0</b></div></div>
+      </div>
+
+      <div class="sec">
+        <h2 style="margin:0 0 8px">LOSS / ยอดเล่น แยกประเภท</h2>
+        <div class="row"><div>สล็อต Loss</div><div class="pill"><b id="slotLoss">0</b></div></div>
+        <div class="row"><div>สล็อต ยอดเล่น</div><div class="pill"><b id="slotWager">0</b></div></div>
+
+        <div class="row"><div>กีฬา Loss</div><div class="pill"><b id="sportLoss">0</b></div></div>
+        <div class="row"><div>กีฬา ยอดเล่น</div><div class="pill"><b id="sportWager">0</b></div></div>
+
+        <div class="row"><div>หวย Loss</div><div class="pill"><b id="lottoLoss">0</b></div></div>
+        <div class="row"><div>หวย ยอดเล่น</div><div class="pill"><b id="lottoWager">0</b></div></div>
+      </div>
     </div>
   </div>
 
-  <script>
-    (function() {
-      var slider = document.getElementById("provider-slider");
-      var track = document.getElementById("provider-track");
-
-      track.innerHTML = track.innerHTML + track.innerHTML;
-
-      var speed = 1;
-      setInterval(function() {
-        slider.scrollLeft += speed;
-        if (slider.scrollLeft >= track.scrollWidth / 2) {
-          slider.scrollLeft = 0;
-        }
-      }, 15);
-    })();
-  </script>
-
-  <!-- กล่องถอนล่าสุด -->
-  <div id="withdraw-box"></div>
-
-  <script>
-    function formatDateTime(offsetSec) {
-      var d = new Date();
-      d.setSeconds(d.getSeconds() - offsetSec);
-
-      var thMonths = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.",
-                      "ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-
-      var day = d.getDate();
-      var month = thMonths[d.getMonth()];
-      var year = d.getFullYear() + 543;
-
-      var time =
-        ("0" + d.getHours()).slice(-2) + ":" +
-        ("0" + d.getMinutes()).slice(-2) + ":" +
-        ("0" + d.getSeconds()).slice(-2);
-
-      return day + " " + month + " " + year + " " + time;
-    }
-
-    function generateUniqueUsers(n) {
-      var set = {};
-      var arr = [];
-
-      while (arr.length < n) {
-        var nums = rand(10000, 99999);
-        var id = "ztip10" + nums + "xx";
-        if (!set[id]) {
-          set[id] = true;
-          arr.push(id);
-        }
-      }
-      return arr;
-    }
-
-    var bankLogos = [
-      { name: "BBL",    type: "bank",   url: "https://img5.pic.in.th/file/secure-sv1/bblf40c39ca40eed0ba.png" },
-      { name: "SCB",    type: "bank",   url: "https://img2.pic.in.th/pic/scb019a059f73100475.png" },
-      { name: "KBANK",  type: "bank",   url: "https://img2.pic.in.th/pic/kbank7742b78e974ad389.png" },
-      { name: "KTB",    type: "bank",   url: "https://img2.pic.in.th/pic/ktbd955d7cfe24294c4.png" },
-      { name: "WALLET", type: "wallet", url: "https://img2.pic.in.th/pic/16e821711eaeac85e1fd523d38a57f75.png" }
-    ];
-
-    var statusList = [
-      { text: "✔ โอนแล้ว",   bg: "#022c22", border: "#22c55e", color: "#bbf7d0" },
-      { text: "⏳ กำลังโอน", bg: "#422006", border: "#fbbf24", color: "#fef9c3" }
-    ];
-
-    var withdrawContainer = document.getElementById("withdraw-box");
-
-    function renderCards() {
-      var users = generateUniqueUsers(3);
-
-      var offsets = [
-        rand(1, 7),
-        rand(8, 14),
-        rand(15, 20)
-      ];
-
-      var usedAmounts = {};
-      var html = "";
-
-      for (var i = 0; i < 3; i++) {
-        var user = users[i];
-        var bank = bankLogos[rand(0, bankLogos.length - 1)];
-
-        var amountVal;
-        do {
-          if (bank.type === "wallet") {
-            amountVal = rand(200, 3000);
-          } else {
-            amountVal = rand(200, 100000);
-          }
-        } while (usedAmounts[amountVal]);
-        usedAmounts[amountVal] = true;
-
-        var amount = amountVal.toLocaleString("th-TH");
-        var status = statusList[rand(0, statusList.length - 1)];
-        var timeStamp = formatDateTime(offsets[i]);
-
-        html +=
-          '<div style="max-width:480px;margin:10px auto;padding:12px 16px;border-radius:14px;border:1px solid #d1a43a;background:#0b2a26;color:#f9fafb;display:flex;align-items:center;gap:14px;box-shadow:0 4px 10px rgba(0,0,0,0.3);">' +
-            '<div style="width:48px;height:48px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;">' +
-              '<img src="' + bank.url + '" style="width:40px;height:40px;object-fit:contain;">' +
-            '</div>' +
-            '<div style="flex:1;">' +
-              '<div style="font-size:12px;color:#cbd5e1;">ยูส: <span style="font-weight:600;">' + user + '</span></div>' +
-              '<div style="font-size:14px;margin:3px 0;">ยอดถอน: <span style="font-weight:700;color:#fbbf24;">' + amount + '</span> บาท</div>' +
-              '<div style="font-size:11px;color:#94a3b8;">อัปเดตล่าสุด: ' + timeStamp + '</div>' +
-            '</div>' +
-            '<div style="padding:4px 10px;border-radius:999px;background:' + status.bg + ';border:1px solid ' + status.border + ';color:' + status.color + ';font-size:12px;white-space:nowrap;">' +
-              status.text +
-            '</div>' +
-          '</div>';
-      }
-
-      withdrawContainer.innerHTML = html;
-    }
-
-    renderCards();
-    setInterval(renderCards, 4000);
-  </script>
-
-  <!-- คนออนไลน์ -->
-  <div style="
-    max-width:380px;
-    margin:20px auto;
-    padding:18px 26px;
-    background:#0b0b0b;
-    border-radius:20px;
-    border:2px solid #22c55e;
-    box-shadow:0 0 12px rgba(34,197,94,0.45);
-    color:#ffffff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-  ">
-    <span style="
-      width:14px;
-      height:14px;
-      background:#22c55e;
-      border-radius:50%;
-      box-shadow:0 0 8px #22c55e;
-    "></span>
-
-    <span style="font-size:18px;font-weight:500;">ออนไลน์</span>
-
-    <span id="online-number" style="
-      font-size:26px;
-      font-weight:800;
-      color:#4ade80;
-    ">
-      180,000
-    </span>
-
-    <span style="font-size:18px;">คน</span>
+  <!-- LOG -->
+  <div class="card" style="margin-top:12px">
+    <h2>LOG (ประวัติ)</h2>
+    <div style="overflow:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>วันที่</th><th>ชื่อโปร</th>
+            <th class="right">ฝากรวม</th>
+            <th class="right">โบนัสรวม</th>
+            <th class="right">ถอนรวม</th>
+            <th class="right">ยอดเล่นรวม</th>
+            <th class="right">Loss รวม</th>
+            <th class="right">คอมพานี</th>
+            <th class="right">กำไรสุทธิ</th>
+            <th>สถานะ</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
   </div>
+</div>
 
-  <script>
-    var numberEl = document.getElementById("online-number");
+<script>
+  const $ = (id)=>document.getElementById(id);
+  const fmt = (n)=> (isFinite(n)? new Intl.NumberFormat('th-TH',{maximumFractionDigits:2}).format(n): '0');
+  const num = (id)=> parseFloat($(id).value || "0") || 0;
 
-    function updateOnline() {
-      var amount = rand(180000, 180999);
-      numberEl.innerHTML = amount.toLocaleString("th-TH");
+  function rate(mode, rtp, margin){
+    return (mode==="RTP") ? (1 - rtp) : margin;
+  }
+  function expectedLoss(D,B,T,mode,rtp,margin){
+    const r = rate(mode, rtp, margin);
+    return (D + B) * T * r;
+  }
+  function totalWager(D,B,T){
+    return (D + B) * T;
+  }
+
+  function compute(){
+    const agentRate   = num("agentRate");
+    const companyRate = num("companyRate"); // 0.15
+    const otherCost   = num("otherCost");
+
+    const slot = { mode: $("slotMode").value, D:num("slotD"), B:num("slotB"), T:num("slotT"), RTP:num("slotRTP"), M:num("slotM"), W:num("slotW") };
+    const sport= { mode: $("sportMode").value, D:num("sportD"),B:num("sportB"),T:num("sportT"),RTP:num("sportRTP"),M:num("sportM"),W:num("sportW") };
+    const lotto= { mode: $("lottoMode").value, D:num("lottoD"),B:num("lottoB"),T:num("lottoT"),RTP:num("lottoRTP"),M:num("lottoM"),W:num("lottoW") };
+
+    const slotLoss  = expectedLoss(slot.D, slot.B, slot.T, slot.mode, slot.RTP, slot.M);
+    const sportLoss = expectedLoss(sport.D, sport.B, sport.T, sport.mode, sport.RTP, sport.M);
+    const lottoLoss = expectedLoss(lotto.D, lotto.B, lotto.T, lotto.mode, lotto.RTP, lotto.M);
+
+    const slotWager  = totalWager(slot.D, slot.B, slot.T);
+    const sportWager = totalWager(sport.D, sport.B, sport.T);
+    const lottoWager = totalWager(lotto.D, lotto.B, lotto.T);
+
+    const sumD = slot.D + sport.D + lotto.D;
+    const sumB = slot.B + sport.B + lotto.B;
+    const sumW = slot.W + sport.W + lotto.W;
+
+    const sumLoss  = slotLoss + sportLoss + lottoLoss;
+    const sumWager = slotWager + sportWager + lottoWager;
+
+    // fees
+    const agentFee   = sumD * agentRate;         // from deposit
+    const companyFee = sumWager * companyRate;   // from total wager (IMPORTANT)
+
+    // Net Profit (aligned with updated Excel)
+    // net = deposits - bonuses - withdrawals - agentFee - companyFee - otherCost + expectedLoss
+    const net = sumD - sumB - sumW - agentFee - companyFee - otherCost + sumLoss;
+
+    // render
+    $("sumD").textContent = fmt(sumD);
+    $("sumB").textContent = fmt(sumB);
+    $("sumW").textContent = fmt(sumW);
+    $("sumLoss").textContent = fmt(sumLoss);
+    $("sumWager").textContent = fmt(sumWager);
+
+    $("agentFee").textContent = fmt(agentFee);
+    $("companyFee").textContent = fmt(companyFee);
+    $("otherCostShow").textContent = fmt(otherCost);
+
+    $("slotLoss").textContent = fmt(slotLoss);
+    $("sportLoss").textContent = fmt(sportLoss);
+    $("lottoLoss").textContent = fmt(lottoLoss);
+
+    $("slotWager").textContent = fmt(slotWager);
+    $("sportWager").textContent = fmt(sportWager);
+    $("lottoWager").textContent = fmt(lottoWager);
+
+    $("netProfit").textContent = fmt(net);
+    $("status").textContent = (net>0) ? "🟢 กำไร" : "🔴 เสี่ยง";
+    $("status").className = (net>0) ? "ok" : "bad";
+
+    $("profitFormula").textContent =
+      "กำไร = ฝากรวม - โบนัสรวม - ถอนรวม - (ฝาก×%เอเย่นต์) - (ยอดเล่น×%คอมพานี) - ต้นทุนอื่น + ExpectedLossรวม";
+
+    // alerts
+    const a1 = (sumD>0 && (sumB/sumD)>0.30) ? "⚠️ YES" : "OK";
+    const a2 = (sumLoss < sumB) ? "⚠️ YES" : "OK";
+    const a3 = (sumW > (sumD + sumLoss)) ? "⚠️ YES" : "OK";
+    setAlert("a1", a1); setAlert("a2", a2); setAlert("a3", a3);
+
+    return {sumD,sumB,sumW,sumWager,sumLoss,agentFee,companyFee,otherCost,net};
+  }
+
+  function setAlert(id, v){
+    const el = $(id);
+    el.textContent = v;
+    el.className = "pill " + (v.includes("YES") ? "warn" : "ok");
+  }
+
+  // LOG
+  const STORAGE_KEY = "profit_control_log_v2_company_wager";
+  function loadLog(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function saveLog(arr){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+  function renderLog(){
+    const arr = loadLog();
+    const tbody = $("logBody");
+    tbody.innerHTML = "";
+    for(const row of arr){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.date||""}</td>
+        <td>${row.campaign||""}</td>
+        <td class="right">${fmt(row.sumD)}</td>
+        <td class="right">${fmt(row.sumB)}</td>
+        <td class="right">${fmt(row.sumW)}</td>
+        <td class="right">${fmt(row.sumWager)}</td>
+        <td class="right">${fmt(row.sumLoss)}</td>
+        <td class="right">${fmt(row.companyFee)}</td>
+        <td class="right"><b>${fmt(row.net)}</b></td>
+        <td>${row.net>0 ? "🟢" : "🔴"}</td>
+      `;
+      tbody.appendChild(tr);
     }
+  }
 
-    updateOnline();
-    setInterval(updateOnline, 4000);
-  </script>
+  function exportCSV(){
+    const arr = loadLog();
+    const header = ["date","campaign","sumD","sumB","sumW","sumWager","sumLoss","agentFee","companyFee","otherCost","net"];
+    const lines = [header.join(",")];
+    for(const r of arr){
+      const row = [r.date,r.campaign,r.sumD,r.sumB,r.sumW,r.sumWager,r.sumLoss,r.agentFee,r.companyFee,r.otherCost,r.net]
+        .map(x=> `"${String(x??"").replaceAll('"','""')}"`).join(",");
+      lines.push(row);
+    }
+    const blob = new Blob([lines.join("\n")], {type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "profit_control_log.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-  <!-- แชท -->
-  <script src="https://code.jivosite.com/widget/fmEuwcaXgH" async></script>
+  // Wire up
+  document.querySelectorAll("input,select").forEach(el=>{
+    el.addEventListener("input", compute);
+    el.addEventListener("change", compute);
+  });
 
+  $("saveBtn").addEventListener("click", ()=>{
+    const snap = compute();
+    const arr = loadLog();
+    arr.unshift({
+      date: $("date").value.trim(),
+      campaign: $("campaign").value.trim(),
+      ...snap,
+      ts: Date.now()
+    });
+    saveLog(arr.slice(0,500));
+    renderLog();
+  });
+
+  $("exportBtn").addEventListener("click", exportCSV);
+  $("clearBtn").addEventListener("click", ()=>{
+    localStorage.removeItem(STORAGE_KEY);
+    renderLog();
+  });
+
+  // init
+  compute();
+  renderLog();
+</script>
 </body>
 </html>
